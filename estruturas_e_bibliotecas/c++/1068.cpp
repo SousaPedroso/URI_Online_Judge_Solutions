@@ -1,41 +1,37 @@
 #include <iostream>
-#include <string>
-#include <list>
-
+#include <queue>
+ 
 using namespace std;
-
-int main(){
-    string expressao, answer;
-
-    while (true){
-        cin >> expressao;
-        if (cin.eof()){
-            break;
-        }
-        answer = "correct";
-        list<int> parenteses_esquerdo;
-        list<int> parenteses_direito;
-
-        for (int i=0; i<expressao.size(); i++){
-
-            if (expressao[i] == ')'){
-                parenteses_direito.push_back(i);
-
-                if(parenteses_direito.size() > parenteses_esquerdo.size()){
+#define endl '\n';
+ 
+int main() {
+ 
+    string s;
+    bool correct;
+    
+    while (cin >> s){
+        queue<int> q;
+        correct = true;
+        
+        for (auto c: s){
+            if (c - '(' == 0){
+                q.push(1);
+            }
+            else if (c - ')' == 0){
+                if (q.size() == 0){
+                    correct = false;
                     break;
                 }
-            }
-            else {
-                if (expressao[i] == '('){
-                    parenteses_esquerdo.push_back(i);
-                }
+                q.pop();
             }
         }
-        if (parenteses_esquerdo.size() != parenteses_direito.size()){
-            answer = "incorrect";
+        if (correct && q.size() == 0){
+            cout<< "correct"<< endl;
         }
-        cout << answer <<endl;
+        else {
+            cout<< "incorrect"<< endl;
+        }
     }
-
+ 
     return 0;
 }
